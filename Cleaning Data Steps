@@ -1,0 +1,23 @@
+To clean my data I first changed the "Date" column into a datetime. I then dropped the columns that I felt weren't necessary to the research. Finally, I got rid of the any missing
+rows of data for the "Sighter Observed Weather Data" and "Other Animal Sightings" columns.
+
+import matplotlib.pyplot as plt
+import pandas as pd
+import seaborn as sns
+squirrels = pd.read_csv("Central_Park.csv", na_values = ("NaN"))
+squirrels.head()
+squirrels.dtypes
+squirrels["Date"] = pd.to_datetime(squirrels["Date"])
+squirrels.head()
+squirrels.dtypes
+squirrels = squirrels.drop(columns = ["Litter", "Litter Notes", "Hectare Conditions Notes"])
+dup_filter = squirrels.duplicated()
+squirrels[dup_filter]
+len(squirrels)
+squirrels.describe(include = ["O"])
+missing_rows = squirrels["Sighter Observed Weather Data"].isna()
+squirrels2 = squirrels[~ missing_rows]
+squirrels2.head()
+missing_rows2 = squirrels2["Other Animal Sightings"].isna()
+squirrels2 = squirrels2[~ missing_rows2]
+squirrels2.head()
